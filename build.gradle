@@ -23,6 +23,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.thedeanda/lorem
     testImplementation 'com.thedeanda:lorem:2.2'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
 }
 
 test {
