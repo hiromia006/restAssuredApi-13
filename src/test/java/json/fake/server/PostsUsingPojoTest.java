@@ -2,6 +2,7 @@ package json.fake.server;
 
 import com.thedeanda.lorem.LoremIpsum;
 import json.fake.server.pojo.Comment;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class PostsUsingPojoTest extends BaseTest {
     public void getPostDetailShouldSucceed() {
         String id = getPostId();
 
-        given()
+        Comment cmt = given()
                 .spec(getRequestSpecification())
                 .log().uri()
                 .when()
@@ -39,7 +40,10 @@ public class PostsUsingPojoTest extends BaseTest {
                 .then()
                 .log().body()
                 .statusCode(200)
-                .body("id", equalTo(id));
+                .body("id", equalTo(id))
+                .extract().jsonPath().getObject("", Comment.class);
+
+        Assert.assertEquals(cmt.getId(), id);
     }
 
     @Test
@@ -83,7 +87,7 @@ public class PostsUsingPojoTest extends BaseTest {
         int views = (int) (Math.random() * 1000);
 
 
-        given()
+        Comment comment = given()
                 .spec(getRequestSpecification())
                 .body(new Comment(title, views))
                 .log().uri()
@@ -95,7 +99,8 @@ public class PostsUsingPojoTest extends BaseTest {
                 .statusCode(200)
                 .body("id", equalTo(id))
                 .body("title", equalTo(title))
-                .body("views", equalTo(views));
+                .body("views", equalTo(views))
+                .extract().jsonPath().getObject("", Comment.class);
     }
 
     @Test
